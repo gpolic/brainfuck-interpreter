@@ -1,6 +1,6 @@
 #What is Brainfuck ?
 Brainfuck is an esoteric programming language created in 1993 by Urban Müller, and notable for its extreme minimalism.
-The language consists of only eight simple commands and an instruction pointer. 
+The language consists of only eight simple commands and an instruction pointer.
 The language's name is a reference to the slang term brainfuck, which refers to things so complicated or unusual
 that they exceed the limits of one's understanding.
 
