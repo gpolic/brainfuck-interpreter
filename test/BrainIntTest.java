@@ -9,7 +9,7 @@ import org.junit.rules.ExpectedException;
 import static org.junit.Assert.assertTrue;
 
 /**
- * BrainIntTest is a test module for the interpreter
+ * BrainIntTest is a test unit for the interpreter
  * Testing programs were found at : http://www.hevanet.com/cristofd/brainfuck/tests.b
  */
 public class BrainIntTest {

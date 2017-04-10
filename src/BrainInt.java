@@ -4,14 +4,12 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 
 /**
- * Brainfuck Interpreter
+ * Brainfuck Interpreter.
  * This implementation is using 60K memory cells of 8bit
  * <p>
- * BrainInt is a brainfuck interpreter
- * The interpreter of a given program is an instance of the class
+ * The output is directed by default to System.out.
+ * The default input stream is System.in.
  * <p>
- * The output is sent by default to System.out
- * The default input stream is System.in
  * Usage: see BrainRunner.java
  */
 public class BrainInt {
@@ -33,13 +31,13 @@ public class BrainInt {
     }
 
     /**
-     * Returns a new BrainInt object initialized with brainCode argument
-     * brainCode should contain brainfuck source code
-     * The code is stripped from unwanted characters and is optimized
-     * The "user" cannot affect or select optimizations
+     * Returns a new BrainInt object initialized with brainCode argument.
+     * <code>brainCode</code> should contain brainfuck source code.
+     * The code is stripped from unwanted characters and is optimized.
+     * The user cannot affect or select optimizations.
      *
-     * @params brainCode        contains the BF code
-     * @returns BrainInt new instance created using code in brainCode. Returns null if the String is empty
+     * @param brainCode        contains the BF code
+     * @return BrainInt new instance created using code in brainCode. Returns null if the String is empty
      */
     public static BrainInt newProgram(String brainCode) {
         return newProgram(brainCode, (BufferedInputStream) System.in, System.out);
@@ -48,10 +46,10 @@ public class BrainInt {
     /**
      * newProgram() creates a new BrainInt and returns the reference
      *
-     * @params brainCode        contains brainfuck program source code
-     * @params inputStream        stream to provide input to the program during execution
-     * @params outputSt            where the output of the program will be printed
-     * @returns BrainInt new instance created using code in brainCode. Returns null if the String is empty
+     * @param brainCode        contains brainfuck program source code.
+     * @param inputSt        stream to provide input to the program during execution.
+     * @param outputSt            where the output of the program will be sent.
+     * @return BrainInt new instance created using code in brainCode. Returns null if the String is empty.
      */
     public static BrainInt newProgram(String brainCode, BufferedInputStream inputSt, PrintStream outputSt) {
         if (brainCode == null || brainCode.trim().length() == 0) return null;
@@ -62,8 +60,8 @@ public class BrainInt {
     }
 
     /**
-     * executeBf() provides the interpreter and executor for optimized code
-     * The main loop is as simple as possible to minimize overhead
+     * executeBf() provides the interpreter and executor for optimized code.
+     * The main loop is as simple as possible to minimize overhead.
      * Complex instructions, error checks and other loops should be
      * taken out of the main loop using optimization
      *
@@ -184,8 +182,7 @@ public class BrainInt {
             char ch = codeSB.charAt(i);  // ch = current command
 
             for (c = 0; c < commandSubstitutes.length; c++) {
-                if (ch == commandSubstitutes[c][0]) break;
-                // can this command be substituted ?
+                if (ch == commandSubstitutes[c][0]) break;    // can this command be substituted ?
             }
             if (c == commandSubstitutes.length) // reached the end of commands list?
                 continue;  // Bf command not found, go to the next command

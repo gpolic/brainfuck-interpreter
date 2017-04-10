@@ -2,11 +2,11 @@ import java.io.File;
 import java.util.Scanner;
 
 /**
- * Example Brainfuck Interpreter
- * Pass the source code file as a parameter on the command line
+ * Example Brainfuck Interpreter.
+ * Pass the source code file as a parameter on the command line.
  * Usage: java BrainRunner sourcefile.b
  * <p>
- * The interpreter will read the source file into a String, then create the Interpreter object and execute it
+ * The interpreter will read the source file into a String, then create the Interpreter object and execute it.
  */
 public class BrainRunner {
     public static void main(String[] args) {
