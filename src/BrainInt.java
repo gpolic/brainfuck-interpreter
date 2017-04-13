@@ -16,7 +16,7 @@ public class BrainInt {
 
     private static final int MEM = 60000;       // memory size
     private int memPointer = 0;                 // memory pointer
-    private short loopPoints[];                 //  Loop helper
+    private short loopPoints[];                 // loop helper
     private byte memory[] = new byte[MEM];      // 8bit memory cells
     private char[] brainCode;                   // program code. Char array gains speed over String
     private InputStreamReader inputReader;
@@ -115,7 +115,8 @@ public class BrainInt {
                 case ',':
                     inputIntoMemCell();
                     break;
-/*              case 'a':
+/*
+                case 'a':
 					memory[memPointer + 1] += memory[memPointer];
 					memory[memPointer] = 0;
 					break;
@@ -144,7 +145,6 @@ public class BrainInt {
         brainCode = sb.toString().toCharArray();
     }
 
-
     /**
      * optimizeBf optimizes the code by shrinking repeated commands
      * <p>
@@ -165,12 +165,12 @@ public class BrainInt {
       /* introduce the Z command for these patterns (zero memory cell)  */
         bfCodeString = bfCodeString.replace("[-]", "Z").replace("[+]", "Z");
 
-//		bfCodeString = bfCodeString.replace("[->+<]", "a").replace("[->>+<<]", "A");
-        /* waste some more RAM here :-).  Turns out this opt. does not have advantages  */
+//      Turns out this opt. does not have advantages
+// 		bfCodeString = bfCodeString.replace("[->+<]", "a").replace("[->>+<<]", "A");
 
         StringBuilder codeSB = new StringBuilder(bfCodeString);
 		
-		/* brainfuck commands >, <, +, - can be replaced by internal commands f, b, i, d*/
+		// brainfuck commands >, <, +, - can be replaced by internal commands f, b, i, d
         char[][] commandSubstitutes = new char[][]{{'>', 'f'}, {'<', 'b'}, {'+', 'i'}, {'-', 'd'}};
         char bfCommand, optimizedCommand;
 
@@ -197,14 +197,14 @@ public class BrainInt {
 
             if (counter > 1) {                  // optimize for 2 or more repeated commands
                 if (counter > 40) {             //  and up to 40 !
-                    codeSB.delete(i, i + 40); // delete 40 occurrences of the command
+                    codeSB.delete(i, i + 40);   // delete 40 occurrences of the command
                     counter = 40;
                 } else {
                     codeSB.delete(i, pos);      // delete occurrences of the command
                 }
-			/* Insert the optimized command and the number of repetitions in the code
-			   Repetitions are represented by a character = '0' + repetitions
-               Why only 40 occurrences? chars 91 and 93 are: '[' and ']', these should never go into the code  */
+			// Insert the optimized command and the number of repetitions in the code
+			// Repetitions are represented by a character = '0' + repetitions
+            // Why only 40 occurrences? chars 91 and 93 are: '[' and ']', these should never go into the code
 
                 codeSB.insert(i, String.valueOf(optimizedCommand) + (char) (counter + '0'));
                 i++;        // advance the pointer because we inserted 2 chars in the code
@@ -252,7 +252,7 @@ public class BrainInt {
                             loopPoints[p] = start;
                             break;                  // position of first '[' is assigned to matching ']'
                         }
-                    } else if (brainCode[p] == '[') in++;               // we are in a inner loop
+                    } else if (brainCode[p] == '[') in++;       // we are in a inner loop
                 }
             }
         }
