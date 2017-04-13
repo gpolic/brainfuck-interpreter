@@ -14,16 +14,15 @@ import java.io.PrintStream;
  */
 public class BrainInt {
 
-    private static final int MEM = 60000;    // memory size
-
-    private int memPointer = 0;        // memory pointer
-    private short loopPoints[];        //  Loop helper
-    private byte memory[] = new byte[MEM];  // 8bit memory cells
-    private char[] brainCode;            // program code. Char array gains speed over String
+    private static final int MEM = 60000;       // memory size
+    private int memPointer = 0;                 // memory pointer
+    private short loopPoints[];                 //  Loop helper
+    private byte memory[] = new byte[MEM];      // 8bit memory cells
+    private char[] brainCode;                   // program code. Char array gains speed over String
     private InputStreamReader inputReader;
     private PrintStream outputSt;
 
-    /*   private constructor   */
+    //  private constructor
     private BrainInt(String brainCode, BufferedInputStream inputSt, PrintStream outputSt) {
         this.inputReader = new InputStreamReader(inputSt);
         this.outputSt = outputSt;
@@ -46,9 +45,9 @@ public class BrainInt {
     /**
      * newProgram() creates a new BrainInt and returns the reference
      *
-     * @param brainCode        contains brainfuck program source code.
-     * @param inputSt        stream to provide input to the program during execution.
-     * @param outputSt            where the output of the program will be sent.
+     * @param brainCode     contains brainfuck program source code.
+     * @param inputSt       stream to provide input to the program during execution.
+     * @param outputSt      where the output of the program will be sent.
      * @return BrainInt new instance created using code in brainCode. Returns null if the String is empty.
      */
     public static BrainInt newProgram(String brainCode, BufferedInputStream inputSt, PrintStream outputSt) {
@@ -68,27 +67,27 @@ public class BrainInt {
      * @throws Exception on memory overflow
      */
     public void executeBf() throws Exception {
-        optimizeLoops(); // executeBf cannot run non optimized loops
+        optimizeLoops();                        // executeBf cannot run non optimized loops
 
         for (int pc = 0; pc < brainCode.length; pc++) {
             switch (brainCode[pc]) {
                 case '+':
                     memory[memPointer]++;
                     break;
-                case 'i':  // add the character followed by command 'i'
+                case 'i':           // add the character followed by command 'i'
                     memory[memPointer] += (byte) (brainCode[++pc] - '0');
                     break;
                 case '-':
                     memory[memPointer]--;
                     break;
-                case 'd':  // subtract the character followed by command 'd'
+                case 'd':           // subtract the character followed by command 'd'
                     memory[memPointer] -= (byte) (brainCode[++pc] - '0');
                     break;
                 case '>':
                     if (memPointer < MEM - 1) memPointer++;
                     else throw new Exception("Memory overflow");
                     break;
-                case 'f': // advance the mem pointer. add the char followed by 'f'
+                case 'f':           // advance the mem pointer. add the char followed by 'f'
                     if (memPointer < MEM - (brainCode[pc + 1] - '0'))
                         memPointer += brainCode[++pc] - '0';
                     else throw new Exception("Memory overflow");
@@ -97,18 +96,18 @@ public class BrainInt {
                     if (memPointer != 0) memPointer--;
                     else throw new Exception("Memory underflow");
                     break;
-                case 'b': // go back, subtracting the char followed by 'b'
+                case 'b':           // go back, subtracting the char followed by 'b'
                     if (memPointer >= brainCode[pc + 1] - '0')
                         memPointer -= brainCode[++pc] - '0';
                     else throw new Exception("Memory underflow");
                     break;
-                case '[': // loop start
+                case '[':           // loop start
                     if (memory[memPointer] == 0)
-                        pc = loopPoints[pc];  // if counter=0 goto end of loop
+                        pc = loopPoints[pc];        // if counter=0 goto end of loop
                     break;
-                case ']': // end loop
+                case ']':           // end loop
                     if (memory[memPointer] == 0) break;
-                    pc = loopPoints[pc];  // if counter=0 stop looping
+                    pc = loopPoints[pc];            // if counter=0 stop looping
                     break;
                 case '.':
                     outputMemCell();
@@ -116,8 +115,7 @@ public class BrainInt {
                 case ',':
                     inputIntoMemCell();
                     break;
-/*
-                case 'a':
+/*              case 'a':
 					memory[memPointer + 1] += memory[memPointer];
 					memory[memPointer] = 0;
 					break;
@@ -138,11 +136,10 @@ public class BrainInt {
     private void stripNonBfChars() {
         StringBuilder sb = new StringBuilder();
 
-        for (int i = 0; i < brainCode.length; i++) {
-            char ch = brainCode[i];
+        for (char ch : brainCode) {
             if (ch == '+' || ch == '-' || ch == '<' || ch == '>' ||
                     ch == '[' || ch == ']' || ch == '.' || ch == ',')
-                sb.append(brainCode[i]); // sb contains only valid chars
+                sb.append(ch);                          // sb contains only valid chars
         }
         brainCode = sb.toString().toCharArray();
     }
@@ -165,8 +162,8 @@ public class BrainInt {
     private void optimizeBf() {
         String bfCodeString = new String(brainCode); // String has the "replace" method
 
+      /* introduce the Z command for these patterns (zero memory cell)  */
         bfCodeString = bfCodeString.replace("[-]", "Z").replace("[+]", "Z");
-        /* introduce the Z command for these patterns (zero memory cell)  */
 
 //		bfCodeString = bfCodeString.replace("[->+<]", "a").replace("[->>+<<]", "A");
         /* waste some more RAM here :-).  Turns out this opt. does not have advantages  */
@@ -179,38 +176,38 @@ public class BrainInt {
 
         for (int i = 0; i < codeSB.length(); i++) {
             int pos, counter, c;
-            char ch = codeSB.charAt(i);  // ch = current command
+            char ch = codeSB.charAt(i);         // ch = current command
 
             for (c = 0; c < commandSubstitutes.length; c++) {
-                if (ch == commandSubstitutes[c][0]) break;    // can this command be substituted ?
+                if (ch == commandSubstitutes[c][0]) break;      // can this command be substituted ?
             }
             if (c == commandSubstitutes.length) // reached the end of commands list?
-                continue;  // Bf command not found, go to the next command
+                continue;                       // Bf command not found, go to the next command
 
-            bfCommand = commandSubstitutes[c][0]; // Bf command to be substituted
-            optimizedCommand = commandSubstitutes[c][1]; // new optimized command
+            bfCommand = commandSubstitutes[c][0];               // Bf command to be substituted
+            optimizedCommand = commandSubstitutes[c][1];        // new/optimized command
 
             pos = i + 1;
-            counter = 1;         // occurrences of the command
+            counter = 1;                        // occurrences of the same command
 
             while (pos < codeSB.length() && codeSB.charAt(pos) == bfCommand) {
                 counter++;            // look for repetitive BF commands
                 pos++;
             }
 
-            if (counter > 1) {     // optimize for 2 or more repeated commands
-                if (counter > 40) {     //  and up to 40 !
+            if (counter > 1) {                  // optimize for 2 or more repeated commands
+                if (counter > 40) {             //  and up to 40 !
                     codeSB.delete(i, i + 40); // delete 40 occurrences of the command
                     counter = 40;
                 } else {
-                    codeSB.delete(i, pos);  // delete occurrences of the command
+                    codeSB.delete(i, pos);      // delete occurrences of the command
                 }
 			/* Insert the optimized command and the number of repetitions in the code
 			   Repetitions are represented by a character = '0' + repetitions
                Why only 40 occurrences? chars 91 and 93 are: '[' and ']', these should never go into the code  */
 
                 codeSB.insert(i, String.valueOf(optimizedCommand) + (char) (counter + '0'));
-                i++;    // need to advance the pointer because we inserted 2 chars in the code
+                i++;        // advance the pointer because we inserted 2 chars in the code
             }
         }
         brainCode = codeSB.toString().toCharArray();
@@ -235,27 +232,27 @@ public class BrainInt {
         short end = (short) (brainCode.length - 1);
         int in = 0;
 
-        for (int i = 0; i < brainCode.length; i++) {
-            if (brainCode[i] == '[') in++;
-            if (brainCode[i] == ']') in--;
-            if (in < 0) break;        // negative _in_ is a big problem!
+        for (char ch : brainCode) {
+            if (ch == '[') in++;
+            if (ch == ']') in--;
+            if (in < 0) break;        // negative "in" is a big problem!
         }
         if (in != 0) {
             throw new IllegalArgumentException("Invalid Loops. Check the source code");
         }
 
-        for (start = 0; start < end; start++) {  // now optimize
-            if (brainCode[start] == '[') {        // find start of loop up to length-1
+        for (start = 0; start < end; start++) {     // now optimize
+            if (brainCode[start] == '[') {          // find start of loop up to length-1
                 in = 0;    // inner loop indicator
-                for (short p = (short) (start + 1); p <= end; p++) { // find end of loop up to length
-                    if (brainCode[p] == ']') {        // move forward to find the matching ']'
-                        if (in > 0) in--;            // if we are inside another loop
-                        else {              // position of ']' is assigned to matching '['
+                for (short p = (short) (start + 1); p <= end; p++) {    // find end of loop up to length
+                    if (brainCode[p] == ']') {      // move forward to find the matching ']'
+                        if (in > 0) in--;           // if we are a inner loop
+                        else {                      // position of ']' is assigned to matching '['
                             loopPoints[start] = p;
                             loopPoints[p] = start;
-                            break;          // position of first '[' is assigned to matching ']'
+                            break;                  // position of first '[' is assigned to matching ']'
                         }
-                    } else if (brainCode[p] == '[') in++;    // inside other loop
+                    } else if (brainCode[p] == '[') in++;               // we are in a inner loop
                 }
             }
         }
