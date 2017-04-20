@@ -1,3 +1,5 @@
+import com.gpolic.brainfuck.BrainInt;
+
 import java.io.ByteArrayOutputStream;
 import java.io.*;
 
@@ -10,14 +12,14 @@ import static org.junit.Assert.assertTrue;
 
 /**
  * BrainIntTest is a test unit for the interpreter
- * Testing programs were found at : http://www.hevanet.com/cristofd/brainfuck/tests.b
+ * Testing programs can be found at : http://www.hevanet.com/cristofd/brainfuck/tests.b
  */
 public class BrainIntTest {
 
     @Rule
     public ExpectedException expectedEx = ExpectedException.none();
     private ByteArrayOutputStream baos;
-    private PrintStream outputStream;  // provide Stream output to interpreter for results
+    private PrintStream outputStream;           // provide output Stream to the interpreter to store results
     private String memTest, variousIssuesTest, loopTest, variousIssuesTest2;
 
     @Before

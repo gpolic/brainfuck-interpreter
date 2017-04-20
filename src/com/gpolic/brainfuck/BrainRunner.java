@@ -1,3 +1,5 @@
+package com.gpolic.brainfuck;
+
 import java.io.File;
 import java.util.Scanner;
 
