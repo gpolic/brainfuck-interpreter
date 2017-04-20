@@ -8,7 +8,7 @@ The Brainfuck Programming Language
 http://www.muppetlabs.com/~breadbox/bf/
 
 This is a Brainfuck interpreter written in Java, and implements some basic optimizations. 
-The implementation is using 60K memory cells of 8bit
+The implementation is using 60K memory cells of 8bit.
 The primary focus is to simplify the main interpreter loop for efficient execution.
 
 ## Performance
@@ -48,7 +48,7 @@ Example:
 Various Brainfuck optimizations are found in this extensive work by Mats Linander:
 http://calmerthanyouare.org/2015/01/07/optimizing-brainfuck.html
 
-Github page: https://github.com/matslina
+GitHub page: https://github.com/matslina
 
 Optimizations here are heavily influenced on Daniel Cristofani's "quick and dirty interpreter": 
 http://www.hevanet.com/cristofd/brainfuck/qdb.c

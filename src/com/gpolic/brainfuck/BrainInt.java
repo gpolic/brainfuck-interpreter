@@ -19,10 +19,10 @@ public class BrainInt {
     private static final int MEM = 60000;       // memory size
     private int memPointer = 0;                 // memory pointer
     private short loopPoints[];                 // loop helper
-    private byte memory[] = new byte[MEM];      // 8bit memory cells
     private char[] brainCode;                   // program code. Char array gains speed over String
-    private InputStreamReader inputReader;
-    private PrintStream outputSt;
+    private final byte memory[] = new byte[MEM];      // 8bit memory cells
+    private final InputStreamReader inputReader;
+    private final PrintStream outputSt;
 
     //  private constructor
     private BrainInt(String brainCode, BufferedInputStream inputSt, PrintStream outputSt) {
@@ -37,7 +37,7 @@ public class BrainInt {
      * The code is stripped from unwanted characters and is optimized.
      * The user cannot affect or select optimizations.
      *
-     * @param brainCode        contains the BF code
+     * @param brainCode contains the BF code
      * @return BrainInt new instance created using code in brainCode. Returns null if the String is empty
      */
     public static BrainInt newProgram(String brainCode) {
@@ -47,9 +47,9 @@ public class BrainInt {
     /**
      * newProgram() creates a new BrainInt and returns the reference
      *
-     * @param brainCode     contains brainfuck program source code.
-     * @param inputSt       stream to provide input to the program during execution.
-     * @param outputSt      where the output of the program will be sent.
+     * @param brainCode contains brainfuck program source code.
+     * @param inputSt   stream to provide input to the program during execution.
+     * @param outputSt  where the output of the program will be sent.
      * @return BrainInt new instance created using code in brainCode. Returns null if the String is empty.
      */
     public static BrainInt newProgram(String brainCode, BufferedInputStream inputSt, PrintStream outputSt) {
@@ -171,8 +171,8 @@ public class BrainInt {
 // 		bfCodeString = bfCodeString.replace("[->+<]", "a").replace("[->>+<<]", "A");
 
         StringBuilder codeSB = new StringBuilder(bfCodeString);
-		
-		// brainfuck commands >, <, +, - can be replaced by internal commands f, b, i, d
+
+        // brainfuck commands >, <, +, - can be replaced by internal commands f, b, i, d
         char[][] commandSubstitutes = new char[][]{{'>', 'f'}, {'<', 'b'}, {'+', 'i'}, {'-', 'd'}};
         char bfCommand, optimizedCommand;
 
@@ -204,9 +204,9 @@ public class BrainInt {
                 } else {
                     codeSB.delete(i, pos);      // delete occurrences of the command
                 }
-			// Insert the optimized command and the number of repetitions in the code
-			// Repetitions are represented by a character = '0' + repetitions
-            // Why only 40 occurrences? chars 91 and 93 are: '[' and ']', these should never go into the code
+                // Insert the optimized command and the number of repetitions in the code
+                // Repetitions are represented by a character = '0' + repetitions
+                // Why only 40 occurrences? chars 91 and 93 are: '[' and ']', these should never go into the code
 
                 codeSB.insert(i, String.valueOf(optimizedCommand) + (char) (counter + '0'));
                 i++;        // advance the pointer because we inserted 2 chars in the code
@@ -239,6 +239,7 @@ public class BrainInt {
             if (ch == ']') in--;
             if (in < 0) break;        // negative "in" is a big problem!
         }
+
         if (in != 0) {
             throw new IllegalArgumentException("Invalid Loops. Check the source code");
         }
@@ -271,4 +272,3 @@ public class BrainInt {
         }
     }
 }
-
