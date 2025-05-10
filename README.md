@@ -77,9 +77,6 @@ https://sange.fi/esoteric/brainfuck/impl/interp/i.html
 * Example programs: 
 https://github.com/fabianishere/brainfuck/tree/master/examples
 
-* A brainfuck CPU by Clifford Wolf: 
-http://www.clifford.at/bfcpu/
-
 * Interpreter by Fabian Mastenbroek: 
 https://github.com/fabianishere/brainfuck
 
